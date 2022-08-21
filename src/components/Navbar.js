@@ -12,7 +12,6 @@ import { GlobalState } from '../App';
 import { GlobalFormState } from '../App';
 import pptxgen from "pptxgenjs";
 
-let pres = new pptxgen();
 let slideArr=[];
 export default function Navbar() {
 
@@ -23,20 +22,45 @@ export default function Navbar() {
 
 
   const downloadPPT=()=>{
-    mainTaskList.map((e,i)=>{
-      slideArr.push(pres.addSlide())
+    let pres = new pptxgen();
+    todoInfoList.map((e,i)=>{
+      let tempSlide=pres.addSlide();
+      let arrBorder = [[{color: '1166BB'}], [{color: 'CC0000'}], [{color: 'E07700'}], [{color: '009933'}]];
+      tempSlide.addText(e.maintask,{
+        x: 0,
+        y: 0.2,
     })
-    slideArr.map((e,i)=>{
+      let rows = [["sub task", "Assigned date", "Expected date","Completion date","Status","Comment"]];
+      tempSlide.addTable(rows, { w: 9,border:arrBorder });
+      let subtaskrows=[];
+      e.todoinfo.map((row, i)=>{
+        subtaskrows.push([row.subtask,row.date1.toString().substring(4, 15),row.date2.toString().substring(4, 15),row.date3.toString().substring(4, 15),row.status,row.comment]);
+       
+        // adding multiple slide due to addtables
+        //tempSlide.addText(row.subtask)
+      })
+      tempSlide.addTable(subtaskrows, { w: 9,y:i*0.2+1,border:arrBorder  });
+      subtaskrows=[];
+      
+    tempSlide=null;
+      //for debug
+      //slideArr.push(tempSlide)
+    })
+    // slideArr.map((e,i)=>{
 
-      //add another loop for subtasks
-      e.addText("Hello World from PptxGenJS...", {
-        x: 1.5,
-        y: 1.5,
-        color: "363636",
-        fill: { color: "F1F1F1" },
-        align: pres.AlignH.center,
-    });
-    })
+    //   //add another loop for subtasks
+      
+      
+    //   e.addText("Hello World from PptxGenJS...", {
+    //     x: 1.5,
+    //     y: 1.5,
+    //     color: "363636",
+    //     fill: { color: "F1F1F1" },
+    //     align: pres.AlignH.center,
+    // });
+    // })
+
+    //for debug
     //console.log(slideArr)
     pres.writeFile({ fileName: "Sample Presentation.pptx" });
   }

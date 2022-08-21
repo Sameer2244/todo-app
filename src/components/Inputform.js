@@ -155,9 +155,9 @@ export default function Inputform() {
                                 label="status"
                                 onChange={(e) => setinputStatus(e.target.value)}
                             >
-                                <MenuItem value={10}>Red</MenuItem>
-                                <MenuItem value={20}>Orange</MenuItem>
-                                <MenuItem value={30}>Green</MenuItem>
+                                <MenuItem value={'Red'}>Red</MenuItem>
+                                <MenuItem value={'Orange'}>Orange</MenuItem>
+                                <MenuItem value={'Green'}>Green</MenuItem>
                             </Select>
                         </FormControl>
                     </div>
